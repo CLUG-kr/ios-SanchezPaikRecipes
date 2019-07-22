@@ -10,8 +10,9 @@
 
 import UIKit
 import AVKit
+import Vision
 
-class FoodDetectionViewController: UIViewController {
+class FoodDetectionViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     private let captureSession = AVCaptureSession()
 
@@ -47,15 +48,51 @@ class FoodDetectionViewController: UIViewController {
         let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         view.layer.addSublayer(previewLayer)
         previewLayer.frame = view.frame
+
+        // 카메라 Output 데이터로 사용하기
+        let dataOutput = AVCaptureVideoDataOutput()
+        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+        captureSession.addOutput(dataOutput)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        // AVCaptureSession 사용
         capture()
-        // Do any additional setup after loading the view.
     }
-    
+
+    // Delegate 메소드 : AVCaptureVideoDataOutputSampleBufferDelegate
+    // Camera의 각 frame에 대해서 동작
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+//        print("Camera was able to capture a frame:", Date())
+
+        guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+
+        // CoreML 모델 선택하기 - Resnet50
+        guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
+            return
+        }
+
+        // CoreML request
+        let request = VNCoreMLRequest(model: model) { (finishReq, err) in
+
+            // perhaps check the err
+
+            guard let results = finishReq.results as? [VNClassificationObservation] else {
+                return
+            }
+
+            guard let firstObservation = results.first else {
+                return
+            }
+
+            print(firstObservation.identifier, firstObservation.confidence)
+        }
+
+        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+    }
 
     /*
     // MARK: - Navigation

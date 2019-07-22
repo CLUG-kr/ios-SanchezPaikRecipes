@@ -1,5 +1,8 @@
+# CoreML (github upload file limit - larger than 100MB)
+*.mlmodel
+
 # macOS
-.DS_Store
+*.DS_Store
 
 # Created by https://www.gitignore.io/api/xcode,swift,cocoapods
 # Edit at https://www.gitignore.io/?templates=xcode,swift,cocoapods
