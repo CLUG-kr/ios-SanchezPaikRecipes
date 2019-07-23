@@ -9,90 +9,193 @@
 // Reference(1) : https://developer.apple.com/documentation/vision/recognizing_objects_in_live_capture
 
 import UIKit
-import AVKit
+import AVFoundation
 import Vision
 
 class FoodDetectionViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
-    private let captureSession = AVCaptureSession()
+    var bufferSize: CGSize = .zero
+    var rootLayer: CALayer! = nil
 
-    func capture() { // Food Detection을 위한 AVCaptureSession 사용
+    @IBOutlet weak private var previewView: UIView!    
+    private let session = AVCaptureSession()
+    private var previewLayer: AVCaptureVideoPreviewLayer! = nil
+    private let videoDataOutput = AVCaptureVideoDataOutput()
 
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
-            return
-        }
+    private let videoDataOutputQueue = DispatchQueue(label: "VideoDataOutput", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
 
-        let captureDeviceInput:AVCaptureDeviceInput
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // to be implemented in the subclass
+    }
+
+//    func capture() { // Food Detection을 위한 AVCaptureSession 사용
+//        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
+//            return
+//        }
+//
+//        let captureDeviceInput:AVCaptureDeviceInput
+//        do {
+//            captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+//        } catch {
+//            print("Could not create video device input: \(error)")
+//            return
+//        }
+//
+//        // captureSession.beginConfiguration()
+//        captureSession.sessionPreset = .vga640x480  // 카메라로 비치는 모습이 아이폰 화면에서 차지하는 비율? .photo
+//                                                    // Vision이 효과적으로 작동하려면 lower resolution을 선택
+//                                                    // YOLOv3에서 train을 위한 input images scale을 몇으로 했는지 알아보기
+//
+//        guard captureSession.canAddInput(captureDeviceInput) else {
+//            print("Could not add video device input to the session")
+//            // captureSession.commitConfiguration()
+//            return
+//        }
+//        captureSession.addInput(captureDeviceInput)
+//
+//        captureSession.startRunning()
+//
+//        // 카메라 Output 보여주기
+//        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+//        view.layer.addSublayer(previewLayer)
+//        previewLayer.frame = view.frame
+//
+//        // 카메라 Output 데이터로 사용하기
+//        let dataOutput = AVCaptureVideoDataOutput()
+//        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
+//        captureSession.addOutput(dataOutput)
+//    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // AVCaptureSession 사용
+        setupAVCapture()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    func setupAVCapture() {
+        var deviceInput: AVCaptureDeviceInput!
+
+        // Select a video device, make an input
+        let videoDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .back).devices.first
         do {
-            captureDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            deviceInput = try AVCaptureDeviceInput(device: videoDevice!)
         } catch {
             print("Could not create video device input: \(error)")
             return
         }
 
-        // captureSession.beginConfiguration()
-        captureSession.sessionPreset = .vga640x480  // 카메라로 비치는 모습이 아이폰 화면에서 차지하는 비율? .photo
-                                                    // Vision이 효과적으로 작동하려면 lower resolution을 선택
-                                                    // YOLOv3에서 train을 위한 input images scale을 몇으로 했는지 알아보기
+        session.beginConfiguration()
+        session.sessionPreset = .vga640x480 // Model image size is smaller.
 
-        guard captureSession.canAddInput(captureDeviceInput) else {
+        // Add a video input
+        guard session.canAddInput(deviceInput) else {
             print("Could not add video device input to the session")
-            // captureSession.commitConfiguration()
+            session.commitConfiguration()
             return
         }
-        captureSession.addInput(captureDeviceInput)
-
-        captureSession.startRunning()
-
-        // 카메라 Output 보여주기
-        let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        view.layer.addSublayer(previewLayer)
-        previewLayer.frame = view.frame
-
-        // 카메라 Output 데이터로 사용하기
-        let dataOutput = AVCaptureVideoDataOutput()
-        dataOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "videoQueue"))
-        captureSession.addOutput(dataOutput)
+        session.addInput(deviceInput)
+        if session.canAddOutput(videoDataOutput) {
+            session.addOutput(videoDataOutput)
+            // Add a video data output
+            videoDataOutput.alwaysDiscardsLateVideoFrames = true
+            videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as String: Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)]
+            videoDataOutput.setSampleBufferDelegate(self, queue: videoDataOutputQueue)
+        } else {
+            print("Could not add video data output to the session")
+            session.commitConfiguration()
+            return
+        }
+        let captureConnection = videoDataOutput.connection(with: .video)
+        // Always process the frames
+        captureConnection?.isEnabled = true
+        do {
+            try  videoDevice!.lockForConfiguration()
+            let dimensions = CMVideoFormatDescriptionGetDimensions((videoDevice?.activeFormat.formatDescription)!)
+            bufferSize.width = CGFloat(dimensions.width)
+            bufferSize.height = CGFloat(dimensions.height)
+            videoDevice!.unlockForConfiguration()
+        } catch {
+            print(error)
+        }
+        session.commitConfiguration()
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        rootLayer = previewView.layer
+        previewLayer.frame = rootLayer.bounds
+        rootLayer.addSublayer(previewLayer)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // AVCaptureSession 사용
-        capture()
+    func startCaptureSession() {
+        session.startRunning()
     }
 
+    // Clean up capture setup
+    func teardownAVCapture() {
+        previewLayer.removeFromSuperlayer()
+        previewLayer = nil
+    }
+
+    func captureOutput(_ captureOutput: AVCaptureOutput, didDrop didDropSampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        // print("frame dropped")
+    }
+
+    public func exifOrientationFromDeviceOrientation() -> CGImagePropertyOrientation {
+        let curDeviceOrientation = UIDevice.current.orientation
+        let exifOrientation: CGImagePropertyOrientation
+
+        switch curDeviceOrientation {
+        case UIDeviceOrientation.portraitUpsideDown:  // Device oriented vertically, home button on the top
+            exifOrientation = .left
+        case UIDeviceOrientation.landscapeLeft:       // Device oriented horizontally, home button on the right
+            exifOrientation = .upMirrored
+        case UIDeviceOrientation.landscapeRight:      // Device oriented horizontally, home button on the left
+            exifOrientation = .down
+        case UIDeviceOrientation.portrait:            // Device oriented vertically, home button on the bottom
+            exifOrientation = .up
+        default:
+            exifOrientation = .up
+        }
+        return exifOrientation
+    }
+
+    // Resnet50.mlmodel
     // Delegate 메소드 : AVCaptureVideoDataOutputSampleBufferDelegate
     // Camera의 각 frame에 대해서 동작
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//        print("Camera was able to capture a frame:", Date())
-
-        guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-
-        // CoreML 모델 선택하기 - Resnet50
-        guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
-            return
-        }
-
-        // CoreML request
-        let request = VNCoreMLRequest(model: model) { (finishReq, err) in
-
-            // perhaps check the err
-
-            guard let results = finishReq.results as? [VNClassificationObservation] else {
-                return
-            }
-
-            guard let firstObservation = results.first else {
-                return
-            }
-
-            print(firstObservation.identifier, firstObservation.confidence)
-        }
-
-        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
-    }
+//    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+////        print("Camera was able to capture a frame:", Date())
+//
+//        guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+//            return
+//        }
+//
+//        // CoreML 모델 선택하기 - Resnet50
+//        guard let model = try? VNCoreMLModel(for: Resnet50().model) else {
+//            return
+//        }
+//
+//        // CoreML request
+//        let request = VNCoreMLRequest(model: model) { (finishReq, err) in
+//
+//            // perhaps check the err
+//
+//            guard let results = finishReq.results as? [VNClassificationObservation] else {
+//                return
+//            }
+//
+//            guard let firstObservation = results.first else {
+//                return
+//            }
+//
+//            print(firstObservation.identifier, firstObservation.confidence)
+//        }
+//
+//        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request])
+//    }
 
     /*
     // MARK: - Navigation
