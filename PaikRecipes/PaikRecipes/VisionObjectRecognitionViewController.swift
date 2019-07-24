@@ -121,7 +121,6 @@ class VisionObjectRecognitionViewController: FoodDetectionViewController {
         detectionOverlay.position = CGPoint (x: bounds.midX, y: bounds.midY)
         
         CATransaction.commit()
-        
     }
     
     func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: VNConfidence) -> CATextLayer {
