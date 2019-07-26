@@ -30,17 +30,25 @@ class IngredientsCell: UITableViewCell {
 }
 
 class RecipeCheckCell: UITableViewCell {
-
 }
 
 // TableViewController
 class RecipeTableViewController: UITableViewController {
 
+    // MyRecipesView에서 넘어온 것인지 확인
+    var isFromMyRecipesView: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var topItemTitle: String = ""
+        if isFromMyRecipesView {
+            topItemTitle = "나의 레시피"
+        } else {
+            topItemTitle = "메인"
+        }
         // navigationBar의 Back Button 이름 바꾸기
-        self.navigationController?.navigationBar.topItem?.title = "메인" // backItem?이 아니다..
+        self.navigationController?.navigationBar.topItem?.title = topItemTitle // backItem?이 아니다..
 
         // cell마다 높이를 다양하게 하기 위해서
         tableView.rowHeight = UITableView.automaticDimension
@@ -57,8 +65,10 @@ class RecipeTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if self.isMovingFromParent {
-            self.navigationController?.popToRootViewController(animated: true)
+        if !isFromMyRecipesView { // 만약 나의 레시피로 넘어가는 것이 아니면 바로 메인화면으로 이동
+            if self.isMovingFromParent {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
         }
     }
 
@@ -79,17 +89,29 @@ class RecipeTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 5
+        if isFromMyRecipesView {
+            return 3
+        } else {
+            return 5
+        }
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         // ImageCell
         case 0: return "달걀말이"   // firebase에서 음식 이름 가져오기
-        // DifficultyCell
-        case 1: return ""
-        // KeepCell
-        case 2: return ""
+        case 1:
+            if isFromMyRecipesView {
+                return "필요한 재료" // IngredientsCell
+            } else {
+                return "" // DifficultyCell
+            }
+        case 2:
+            if isFromMyRecipesView {
+                return "" // RecipeCheckCell
+            } else {
+                return "" // KeepCell
+            }
         // IngredientsCell
         case 3: return "필요한 재료"
         // RecipeCheckCell
@@ -103,12 +125,18 @@ class RecipeTableViewController: UITableViewController {
         // ImageCell
         case 0:
             return 1
-        // DifficultyCell
         case 1:
-            return 1
-        // KeepCell
+            if isFromMyRecipesView {
+                return 5 // IngredientsCell - Firebase에서 정확한 각 재료 개수 가져오기
+            } else {
+                return 1 // DifficultyCell
+            }
         case 2:
-            return 1
+            if isFromMyRecipesView {
+                return 1 // RecipeCheckCell
+            } else {
+                return 1 // KeepCell
+            }
         // IngredientsCell
         case 3:
             return 5    // 필요한 재료의 정확한 개수는 firebase에서 해당 레시피에 필요한 재료들을 가져와서 결정한다.
@@ -136,38 +164,62 @@ class RecipeTableViewController: UITableViewController {
             foodImageCell.foodImageView.image = foodImage
             return foodImageCell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "difficultyCell", for: indexPath)
-            guard let difficultyCell = cell as? DifficultyCell else {
-                return cell
+            if isFromMyRecipesView {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientsCell", for: indexPath)
+                guard let ingredientsCell = cell as? IngredientsCell else {
+                    return cell
+                }
+                // 재료에 대한 정보들은 추후 Firebase에서 가져온다
+                // 일단은 dummydata를 사용
+
+                let ingredients: [String] = ["달걀", "양파", "당근", "쪽파", "소금"]
+                let quantity: [String] = ["5개", "1/4개", "한토막(1cm)", "3줄기", "1/2(티스푼)"]
+                ingredientsCell.ingredientLabel.text = ingredients[indexPath.row]
+                ingredientsCell.quantityLabel.text = quantity[indexPath.row]
+                return ingredientsCell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "difficultyCell", for: indexPath)
+                guard let difficultyCell = cell as? DifficultyCell else {
+                    return cell
+                }
+                // firebase에서 가져온 난이도에 따라 결정하기
+                // firebase에는 난이도가 1, 2, 3, 4, 5 와 같이 String형으로 저장되어 있을 것.
+                let difficulty: String = "3"
+                let difficultyImage: UIImage?
+                switch difficulty {
+                case "1":
+                    difficultyImage = UIImage(named: "difficulty1")
+                case "2":
+                    difficultyImage = UIImage(named: "difficulty2")
+                case "3":
+                    difficultyImage = UIImage(named: "difficulty3")
+                case "4":
+                    difficultyImage = UIImage(named: "difficulty4")
+                case "5":
+                    difficultyImage = UIImage(named: "difficulty5")
+                default:
+                    difficultyImage = UIImage(named: "difficultyError")
+                    print("UnRanked")
+                }
+                difficultyCell.difficultyImageView.image = difficultyImage
+                return difficultyCell
             }
-            // firebase에서 가져온 난이도에 따라 결정하기
-            // firebase에는 난이도가 1, 2, 3, 4, 5 와 같이 String형으로 저장되어 있을 것.
-            let difficulty: String = "3"
-            let difficultyImage: UIImage?
-            switch difficulty {
-            case "1":
-                difficultyImage = UIImage(named: "difficulty1")
-            case "2":
-                difficultyImage = UIImage(named: "difficulty2")
-            case "3":
-                difficultyImage = UIImage(named: "difficulty3")
-            case "4":
-                difficultyImage = UIImage(named: "difficulty4")
-            case "5":
-                difficultyImage = UIImage(named: "difficulty5")
-            default:
-                difficultyImage = UIImage(named: "difficultyError") 
-                print("UnRanked")
-            }
-            difficultyCell.difficultyImageView.image = difficultyImage
-            return difficultyCell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "keepCell", for: indexPath)
-            guard let keepCell = cell as? KeepCell else {
-                return cell
+            if isFromMyRecipesView {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCheckCell", for: indexPath)
+                guard let recipeCheckCell = cell as? RecipeCheckCell else {
+                    return cell
+                }
+                // class RecipeCheckCell에서 RecipeCheck 버튼에 대한 동작을 수행
+                return recipeCheckCell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "keepCell", for: indexPath)
+                guard let keepCell = cell as? KeepCell else {
+                    return cell
+                }
+                // class KeepCell에서 keep 버튼에 대한 동작을 수행
+                return keepCell
             }
-            // class KeepCell에서 keep 버튼에 대한 동작을 수행
-            return keepCell
         case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ingredientsCell", for: indexPath)
             guard let ingredientsCell = cell as? IngredientsCell else {
