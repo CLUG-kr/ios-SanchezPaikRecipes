@@ -9,7 +9,8 @@
 ---
 
 ## 0. 첫인상
-<img width="400" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61866659-865ba000-af10-11e9-863a-f4b2f0d6548c.PNG">
+
+<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61866659-865ba000-af10-11e9-863a-f4b2f0d6548c.PNG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61948173-10c00480-afe2-11e9-9611-e346bcc5fe95.PNG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61948175-10c00480-afe2-11e9-9eb4-ddcfaeff6590.PNG">
 
 ---
 
