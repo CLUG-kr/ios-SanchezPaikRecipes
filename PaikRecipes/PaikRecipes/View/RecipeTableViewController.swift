@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices // SFSafariViewController 사용
 
 // TableViewCell 종류 (총 5가지)
 
@@ -29,8 +30,7 @@ class IngredientsCell: UITableViewCell {
 }
 
 class RecipeCheckCell: UITableViewCell {
-    @IBAction func RecipeCheckAction(_ sender: Any) {
-    }
+
 }
 
 // TableViewController
@@ -51,6 +51,19 @@ class RecipeTableViewController: UITableViewController {
         }
     }
 
+    func showRecipe(_ url: String) {
+        if let url = URL(string: url) {
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            let vc = SFSafariViewController(url: url, configuration: config)
+            present(vc, animated: true)
+        }
+    }
+
+    @IBAction func checkRecipeAction(_ sender: Any) {
+        showRecipe("https://bmsj.tistory.com/1177") // firebase에서 레시피 주소 가져오기
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -61,7 +74,7 @@ class RecipeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         // ImageCell
-        case 0: return "음식 사진"
+        case 0: return "달걀말이"   // firebase에서 음식 이름 가져오기
         // DifficultyCell
         case 1: return ""
         // KeepCell
@@ -89,7 +102,6 @@ class RecipeTableViewController: UITableViewController {
         case 3:
             return 5    // 필요한 재료의 정확한 개수는 firebase에서 해당 레시피에 필요한 재료들을 가져와서 결정한다.
                         // 일단은 임의로 dummydata의 개수인 5개로 하자.
-
         // RecipeCheckCell
         case 4:
             return 1
@@ -153,7 +165,7 @@ class RecipeTableViewController: UITableViewController {
             // 재료에 대한 정보들은 추후 Firebase에서 가져온다
             // 일단은 dummydata를 사용
 
-            let ingredients: [String] = ["계란", "양파", "당근", "쪽파", "소금"]
+            let ingredients: [String] = ["달걀", "양파", "당근", "쪽파", "소금"]
             let quantity: [String] = ["5개", "1/4개", "한토막(1cm)", "3줄기", "1/2(티스푼)"]
             ingredientsCell.ingredientLabel.text = ingredients[indexPath.row]
             ingredientsCell.quantityLabel.text = quantity[indexPath.row]
