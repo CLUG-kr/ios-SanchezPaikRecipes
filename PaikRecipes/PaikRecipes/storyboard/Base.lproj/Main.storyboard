@@ -13,7 +13,7 @@
         <!--MainView-->
         <scene sceneID="iGe-TG-9ni">
             <objects>
-                <viewController title="MainView" id="35h-7f-Vf7" sceneMemberID="viewController">
+                <viewController title="MainView" id="35h-7f-Vf7" customClass="MainViewController" customModule="PaikRecipes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="910-nl-f4Q">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,6 +48,9 @@
                                 <rect key="frame" x="24" y="577" width="327" height="52"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="myRecipes"/>
+                                <connections>
+                                    <segue destination="afu-lL-q3h" kind="show" id="Ib8-Q0-1yY"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="STEP1 : 스마트폰의 카메라로 음식 재료를 찍는다!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPf-43-ZP4">
                                 <rect key="frame" x="70" y="425" width="259" height="16"/>
@@ -79,6 +82,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9M3-8v-uDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="188" y="114"/>
+        </scene>
+        <!--나의 레시피-->
+        <scene sceneID="PQQ-MT-xTq">
+            <objects>
+                <tableViewController id="afu-lL-q3h" customClass="MyRecipesTableViewController" customModule="PaikRecipes" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nm6-bN-vRA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="16y-p2-ow1">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="16y-p2-ow1" id="BNo-CC-Lic">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="afu-lL-q3h" id="CJZ-2k-tya"/>
+                            <outlet property="delegate" destination="afu-lL-q3h" id="oRf-zS-FuL"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="나의 레시피" id="9k5-ph-S4c"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GU9-lI-aEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="977" y="896"/>
         </scene>
         <!--Vision Object Recognition View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -113,7 +145,7 @@
                                 <state key="normal" image="cook"/>
                                 <connections>
                                     <action selector="findRecipeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ok8-Qb-6jf"/>
-                                    <segue destination="7ui-9l-ypH" kind="show" id="MFn-Ch-ESx"/>
+                                    <segue destination="Wa4-gV-ofW" kind="show" id="3qm-Oc-SlK"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -126,7 +158,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="950" y="114"/>
+            <point key="canvasLocation" x="978" y="114"/>
         </scene>
         <!--RecipeView-->
         <scene sceneID="Req-j3-8wo">
@@ -281,44 +313,26 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edc-CP-uKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2444" y="113.79310344827587"/>
+            <point key="canvasLocation" x="1767" y="114"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NWd-ft-iRX">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="m4v-TF-Pzb" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="m4v-TF-Pzb" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hS8-kC-Qzm">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="35h-7f-Vf7" kind="relationship" relationship="rootViewController" id="ykf-Cb-QzC"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ct5-n5-QVE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-549.60000000000002" y="113.79310344827587"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="gaW-RK-ypR">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7ui-9l-ypH" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ivx-hD-bEs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="hS8-kC-Qzm">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="1" green="0.56259328129999997" blue="0.006824314594" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Wa4-gV-ofW" kind="relationship" relationship="rootViewController" id="pW7-Tb-rSi"/>
+                        <segue destination="35h-7f-Vf7" kind="relationship" relationship="rootViewController" id="pJ6-2v-20e"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3b7-F0-YUe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ct5-n5-QVE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1704.8" y="113.79310344827587"/>
+            <point key="canvasLocation" x="-649" y="114"/>
         </scene>
     </scenes>
     <resources>
@@ -331,4 +345,5 @@
         <image name="main" width="1600" height="1600"/>
         <image name="myRecipes" width="327" height="52"/>
     </resources>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

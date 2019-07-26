@@ -39,6 +39,9 @@ class RecipeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // navigationBar의 Back Button 이름 바꾸기
+        self.navigationController?.navigationBar.topItem?.title = "메인" // backItem?이 아니다..
+
         // cell마다 높이를 다양하게 하기 위해서
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44 // Default
@@ -48,6 +51,14 @@ class RecipeTableViewController: UITableViewController {
         // large title 사용 (only iOS 11)
         if #available(iOS 11.0, *) {
             navigationController?.navigationBar.prefersLargeTitles = true
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if self.isMovingFromParent {
+            self.navigationController?.popToRootViewController(animated: true)
         }
     }
 
