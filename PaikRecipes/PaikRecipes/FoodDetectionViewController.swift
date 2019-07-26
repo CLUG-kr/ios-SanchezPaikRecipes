@@ -28,6 +28,11 @@ class FoodDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         // to be implemented in the subclass
     }
 
+    @IBAction func findRecipeAction(_ sender: Any) {
+        session.stopRunning() // 레시피 찾기 버튼을 누르면 AVCaptureSession을 중지한다.
+        // 디버깅 결과 Memory Usage만 줄어들지 않는다.
+    }
+
 //    func capture() { // Food Detection을 위한 AVCaptureSession 사용
 //        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
 //            return

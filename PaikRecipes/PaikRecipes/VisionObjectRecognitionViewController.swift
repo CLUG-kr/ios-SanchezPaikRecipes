@@ -12,7 +12,7 @@ class VisionObjectRecognitionViewController: FoodDetectionViewController {
     
     // Vision parts
     private var requests = [VNRequest]()
-    
+
     @discardableResult
     func setupVision() -> NSError? {
         // Setup Vision parts

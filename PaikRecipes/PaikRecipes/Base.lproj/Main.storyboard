@@ -112,6 +112,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="cook"/>
                                 <connections>
+                                    <action selector="findRecipeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ok8-Qb-6jf"/>
                                     <segue destination="7ui-9l-ypH" kind="show" id="MFn-Ch-ESx"/>
                                 </connections>
                             </button>
@@ -136,21 +137,34 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="200" id="smc-GO-rlt">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="foodImageCell" rowHeight="200" id="smc-GO-rlt" customClass="FoodImageCell" customModule="PaikRecipes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="375" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="smc-GO-rlt" id="CtK-1L-40T">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="eggRoll" translatesAutoresizingMaskIntoConstraints="NO" id="ZUC-RV-beh">
-                                            <rect key="frame" x="16" y="11" width="343" height="178"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eggRoll" translatesAutoresizingMaskIntoConstraints="NO" id="ZUC-RV-beh">
+                                            <rect key="frame" x="12" y="12" width="350" height="175"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="ZUC-RV-beh" secondAttribute="height" multiplier="2:1" id="PsU-WB-3Zm"/>
+                                                <constraint firstAttribute="height" constant="175" id="WLc-hx-lab"/>
+                                                <constraint firstAttribute="width" constant="350" id="ve5-sP-xbP"/>
+                                            </constraints>
                                         </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ZUC-RV-beh" firstAttribute="leading" secondItem="CtK-1L-40T" secondAttribute="leading" constant="12" id="MTh-j2-WmQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="ZUC-RV-beh" secondAttribute="trailing" constant="13" id="abx-dI-2yP"/>
+                                        <constraint firstItem="ZUC-RV-beh" firstAttribute="top" secondItem="CtK-1L-40T" secondAttribute="top" constant="12" id="gjF-QH-fEE"/>
+                                        <constraint firstAttribute="bottom" secondItem="ZUC-RV-beh" secondAttribute="bottom" constant="12.5" id="iy9-Vf-O5R"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="foodImageView" destination="ZUC-RV-beh" id="TXM-R7-FRk"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Q5u-4z-XUt">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="difficultyCell" rowHeight="44" id="Q5u-4z-XUt" customClass="DifficultyCell" customModule="PaikRecipes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="255.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Q5u-4z-XUt" id="Cqf-Tb-tg6">
@@ -164,30 +178,17 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starBlank" translatesAutoresizingMaskIntoConstraints="NO" id="JK2-VL-VSj">
-                                            <rect key="frame" x="335" y="9" width="24" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starBlank" translatesAutoresizingMaskIntoConstraints="NO" id="sfm-XX-tow">
-                                            <rect key="frame" x="308" y="9" width="24" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFill" translatesAutoresizingMaskIntoConstraints="NO" id="gL0-Pp-12S">
-                                            <rect key="frame" x="281" y="9" width="24" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFill" translatesAutoresizingMaskIntoConstraints="NO" id="uKo-yd-iGC">
-                                            <rect key="frame" x="253" y="9" width="24" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="starFill" translatesAutoresizingMaskIntoConstraints="NO" id="sRQ-b1-Rar">
-                                            <rect key="frame" x="225" y="9" width="24" height="24"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="difficulty3" translatesAutoresizingMaskIntoConstraints="NO" id="sRQ-b1-Rar">
+                                            <rect key="frame" x="225" y="9" width="135" height="24"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="difficultyImageView" destination="sRQ-b1-Rar" id="6rO-wv-yRJ"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="htr-Ch-si2">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="keepCell" rowHeight="44" id="htr-Ch-si2" customClass="KeepCell" customModule="PaikRecipes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="299.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="htr-Ch-si2" id="Mhl-9B-LvJ">
@@ -205,11 +206,14 @@
                                             <rect key="frame" x="275" y="4" width="84" height="36"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" image="keep"/>
+                                            <connections>
+                                                <action selector="keepAction:" destination="htr-Ch-si2" eventType="touchUpInside" id="Kxk-Gk-W0k"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Dgg-Mj-adA">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ingredientsCell" rowHeight="44" id="Dgg-Mj-adA" customClass="IngredientsCell" customModule="PaikRecipes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="343.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dgg-Mj-adA" id="vlj-IJ-rcp">
@@ -217,14 +221,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="계란" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cd3-uy-tas">
-                                            <rect key="frame" x="16" y="11" width="111" height="21"/>
+                                            <rect key="frame" x="16" y="11" width="153" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5개" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iqv-9u-tVA">
-                                            <rect key="frame" x="290" y="12" width="64" height="21"/>
+                                            <rect key="frame" x="229" y="12" width="125" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -232,20 +236,40 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="ingredientLabel" destination="Cd3-uy-tas" id="lPR-UE-Alr"/>
+                                    <outlet property="quantityLabel" destination="Iqv-9u-tVA" id="Lz8-pK-jyv"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="100" id="Yvv-ps-x5d">
-                                <rect key="frame" x="0.0" y="387.5" width="375" height="100"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="recipeCheckCell" rowHeight="77" id="Yvv-ps-x5d" customClass="RecipeCheckCell" customModule="PaikRecipes" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="387.5" width="375" height="77"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Yvv-ps-x5d" id="dMO-ok-6oY">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="76.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbB-gp-ZfJ">
-                                            <rect key="frame" x="24" y="24" width="327" height="52"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bbB-gp-ZfJ">
+                                            <rect key="frame" x="24" y="12" width="327" height="52"/>
                                             <state key="normal" image="checkRecipe"/>
+                                            <connections>
+                                                <action selector="RecipeCheckAction:" destination="Yvv-ps-x5d" eventType="touchUpInside" id="Tx6-5y-ymd"/>
+                                            </connections>
                                         </button>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="bbB-gp-ZfJ" secondAttribute="bottom" constant="2" id="DID-a9-iaa"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="bbB-gp-ZfJ" secondAttribute="trailing" constant="8" id="Ucd-29-dL2"/>
+                                        <constraint firstItem="bbB-gp-ZfJ" firstAttribute="leading" secondItem="dMO-ok-6oY" secondAttribute="leadingMargin" constant="8" id="deV-dP-dm4"/>
+                                        <constraint firstItem="bbB-gp-ZfJ" firstAttribute="top" secondItem="dMO-ok-6oY" secondAttribute="topMargin" constant="1" id="srs-Oj-YDh"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="errorCell" rowHeight="44" id="WzP-eY-2ow" customClass="ErrorCell" customModule="PaikRecipes" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="464.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WzP-eY-2ow" id="2N8-As-09I">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -301,12 +325,11 @@
     <resources>
         <image name="checkRecipe" width="327" height="52"/>
         <image name="cook" width="112" height="52"/>
+        <image name="difficulty3" width="174" height="30"/>
         <image name="eggRoll" width="800" height="534"/>
         <image name="findFood" width="327" height="52"/>
         <image name="keep" width="91.5" height="38"/>
         <image name="main" width="1600" height="1600"/>
         <image name="myRecipes" width="327" height="52"/>
-        <image name="starBlank" width="512" height="512"/>
-        <image name="starFill" width="512" height="512"/>
     </resources>
 </document>
