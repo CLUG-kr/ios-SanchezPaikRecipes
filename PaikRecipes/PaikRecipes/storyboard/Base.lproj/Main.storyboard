@@ -301,7 +301,7 @@
                                             <rect key="frame" x="24" y="12" width="327" height="52"/>
                                             <state key="normal" image="checkRecipe"/>
                                             <connections>
-                                                <action selector="checkRecipeAction:" destination="Wa4-gV-ofW" eventType="touchUpInside" id="lEJ-Vr-1sn"/>
+                                                <action selector="findRecipeAction:" destination="6mF-2u-E07" eventType="touchUpInside" id="8qW-VK-zR4"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -330,6 +330,7 @@
                     <navigationItem key="navigationItem" title="추천 레시피" id="zsW-3v-Cig"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edc-CP-uKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="6mF-2u-E07" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1767" y="114"/>
         </scene>

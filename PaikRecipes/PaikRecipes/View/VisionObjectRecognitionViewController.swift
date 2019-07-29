@@ -13,12 +13,21 @@ class VisionObjectRecognitionViewController: FoodDetectionViewController {
     // Vision parts
     private var requests = [VNRequest]()
 
+    // 레시피 찾기 버튼
+    @IBAction func findRecipeAction(_ sender: Any) {
+        session.stopRunning() // 레시피 찾기 버튼을 누르면 AVCaptureSession을 중지한다.
+        // 디버깅 결과 Memory Usage만 줄어들지 않는다.
+
+        // 화면 상의 인식된 식재료 결과 출력하기
+        print(dataCenter.ingredients)
+    }
+
     @discardableResult
     func setupVision() -> NSError? {
         // Setup Vision parts
         let error: NSError! = nil
         
-        guard let modelURL = Bundle.main.url(forResource: "YOLOv3", withExtension: "mlmodelc") else {
+        guard let modelURL = Bundle.main.url(forResource: "yolo_food", withExtension: "mlmodelc") else {
             return NSError(domain: "VisionObjectRecognitionViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file is missing"])
         }
         do {
@@ -56,6 +65,15 @@ class VisionObjectRecognitionViewController: FoodDetectionViewController {
             let textLayer = self.createTextSubLayerInBounds(objectBounds,
                                                             identifier: topLabelObservation.identifier,
                                                             confidence: topLabelObservation.confidence)
+
+            // 화면 상에 인식된 식재료 가져오기 - 메모리 사용에 문제 없음?
+            // let ingredient: String = topLabelObservation.identifier
+
+            // 0.8 이상의 confidence를 가진 인식 대상만 추가
+            if dataCenter.standardConfidence < topLabelObservation.confidence {
+                dataCenter.ingredients.insert(topLabelObservation.identifier)
+            }
+
             shapeLayer.addSublayer(textLayer)
             detectionOverlay.addSublayer(shapeLayer)
         }

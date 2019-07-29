@@ -18,7 +18,7 @@ class FoodDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
     var rootLayer: CALayer! = nil
 
     @IBOutlet weak private var previewView: UIView!    
-    private let session = AVCaptureSession()
+    internal let session = AVCaptureSession()
     private var previewLayer: AVCaptureVideoPreviewLayer! = nil
     private let videoDataOutput = AVCaptureVideoDataOutput()
 
@@ -26,11 +26,6 @@ class FoodDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // to be implemented in the subclass
-    }
-
-    @IBAction func findRecipeAction(_ sender: Any) {
-        session.stopRunning() // 레시피 찾기 버튼을 누르면 AVCaptureSession을 중지한다.
-        // 디버깅 결과 Memory Usage만 줄어들지 않는다.
     }
 
 //    func capture() { // Food Detection을 위한 AVCaptureSession 사용
