@@ -8,6 +8,7 @@
 
 import UIKit
 import SafariServices // SFSafariViewController 사용
+import Firebase
 
 // TableViewCell 종류 (총 5가지)
 
@@ -37,6 +38,10 @@ class RecipeTableViewController: UITableViewController {
 
     // MyRecipesView에서 넘어온 것인지 확인
     var isFromMyRecipesView: Bool = false
+
+    // Firebase Realtime Database
+    private var ref: DatabaseReference!
+    private var databaseHandle:DatabaseHandle?
 
     override func viewDidLoad() {
         super.viewDidLoad()

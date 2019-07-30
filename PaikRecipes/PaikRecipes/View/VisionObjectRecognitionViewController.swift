@@ -27,7 +27,7 @@ class VisionObjectRecognitionViewController: FoodDetectionViewController {
         // Setup Vision parts
         let error: NSError! = nil
         
-        guard let modelURL = Bundle.main.url(forResource: "yolo_food", withExtension: "mlmodelc") else {
+        guard let modelURL = Bundle.main.url(forResource: "yolo_food_ver4", withExtension: "mlmodelc") else {
             return NSError(domain: "VisionObjectRecognitionViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file is missing"])
         }
         do {

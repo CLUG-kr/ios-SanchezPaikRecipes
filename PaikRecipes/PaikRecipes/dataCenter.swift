@@ -13,8 +13,10 @@ var dataCenter: DataCenter = DataCenter()
 
 class DataCenter {
     var recipe:[Recipe]
+
     // 카메라에 보이는 식재료를 담는 Set (중복 제거)
     var ingredients:Set<String>
+
     // confidence가 어느 정도 넘어야 식재료로 확신한다.
     let standardConfidence: Float
 
@@ -26,17 +28,24 @@ class DataCenter {
 }
 
 class Recipe {
-    let foodImage:UIImage?
-    let difficulty:String
-    let ingredientsName:[String]
-    let ingredientsQuantity:[String]
-    let recipeURL:String
+    var foodName:String
+    var foodImage:UIImage?
+    var difficulty:String
+    var ingredientsName:[String]
+    var ingredientsQuantity:[String]
+    var recipeURL:String
 
-    init() {
-        self.foodImage = UIImage(named: "eggRoll")
-        self.difficulty = "0"
-        self.ingredientsName = []
-        self.ingredientsQuantity = []
-        self.recipeURL = ""
+    init(foodName:String,
+         foodImage:UIImage,
+         difficulty:String,
+         ingredientsName:[String],
+         ingredientsQuantity:[String],
+         recipeURL:String) {
+        self.foodName = foodName
+        self.foodImage = foodImage
+        self.difficulty = difficulty
+        self.ingredientsName = ingredientsName
+        self.ingredientsQuantity = ingredientsQuantity
+        self.recipeURL = recipeURL
     }
 }

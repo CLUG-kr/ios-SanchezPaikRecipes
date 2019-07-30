@@ -38,7 +38,7 @@ class MyRecipesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return dataCenter.recipe.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,8 +46,8 @@ class MyRecipesTableViewController: UITableViewController {
         guard let recipeCell = cell as? RecipeCell else {
             return cell
         }
-        recipeCell.recipeNameLabel.text = "달걀말이"
-        let difficulty: String = "3"
+        recipeCell.recipeNameLabel.text = dataCenter.recipe[indexPath.row].foodName
+        let difficulty: String = dataCenter.recipe[indexPath.row].difficulty
         let difficultyImage: UIImage?
         switch difficulty {
         case "1":

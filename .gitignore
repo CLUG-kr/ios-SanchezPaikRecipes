@@ -1,3 +1,6 @@
+# Private - Firebase API Key
+GoogleService-Info.plist
+
 # CoreML (github upload file limit - larger than 100MB)
 *.mlmodel
 

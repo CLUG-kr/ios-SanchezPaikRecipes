@@ -7,15 +7,49 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // Firebase Realtime Database
+    private var ref: DatabaseReference!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        // Firebase Realtime Database 사용하기
+        FirebaseApp.configure()
+
+        print("App Launched")
+        ref = Database.database().reference()
+
+        ref.child("recipes").observeSingleEvent(of: .value, with: { (snapshot) in
+            for child in snapshot.children {
+                let snap = child as! DataSnapshot
+
+                let foodName = snap.key
+                let foodImage = UIImage(named: "eggRoll")
+                let snapDictionary = snap.value as! NSDictionary
+                let difficulty = snapDictionary["난이도"]! as! String
+                var ingredientsName:[String] = []
+                var ingredientsQuantity:[String] = []
+                for (key, value) in snapDictionary["재료"] as! [String:String] {
+                    ingredientsName.append(key)
+                    ingredientsQuantity.append(value)
+                }
+                let recipeURL = snapDictionary["URL"] as! String
+
+                let recipe:Recipe = Recipe(foodName: foodName, foodImage: foodImage!, difficulty: difficulty, ingredientsName: ingredientsName, ingredientsQuantity: ingredientsQuantity, recipeURL: recipeURL)
+
+                dataCenter.recipe.append(recipe)
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+
         return true
     }
 
