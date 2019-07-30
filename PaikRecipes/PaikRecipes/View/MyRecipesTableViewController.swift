@@ -38,7 +38,7 @@ class MyRecipesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return dataCenter.recipe.count
+        return dataCenter.myRecipe.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,8 +46,8 @@ class MyRecipesTableViewController: UITableViewController {
         guard let recipeCell = cell as? RecipeCell else {
             return cell
         }
-        recipeCell.recipeNameLabel.text = dataCenter.recipe[indexPath.row].foodName
-        let difficulty: String = dataCenter.recipe[indexPath.row].difficulty
+        recipeCell.recipeNameLabel.text = dataCenter.myRecipe[indexPath.row].foodName
+        let difficulty: String = dataCenter.myRecipe[indexPath.row].difficulty
         let difficultyImage: UIImage?
         switch difficulty {
         case "1":
@@ -69,15 +69,20 @@ class MyRecipesTableViewController: UITableViewController {
         return recipeCell
     }
 
+    // 선택한 레시피
+    // var selectedRecipe:Recipe?
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        dataCenter.foundRecipe = dataCenter.myRecipe[indexPath.row]
+        //performSegue(withIdentifier: "checkMyRecipe", sender: nil)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        if let recipeTVC = segue.destination as? RecipeTableViewController {
-            recipeTVC.isFromMyRecipesView = true
+        if segue.identifier == "checkMyRecipe" {
+            if let recipeTVC = segue.destination as? RecipeTableViewController {
+                recipeTVC.isFromMyRecipesView = true
+                // recipeTVC.segueRecipe = selectedRecipe
+            }
         }
     }
 }

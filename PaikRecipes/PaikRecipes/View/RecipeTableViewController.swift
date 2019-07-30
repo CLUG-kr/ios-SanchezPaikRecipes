@@ -22,6 +22,7 @@ class DifficultyCell: UITableViewCell {
 
 class KeepCell: UITableViewCell {
     @IBAction func keepAction(_ sender: Any) {
+        dataCenter.myRecipe.append(dataCenter.foundRecipe!)
     }
 }
 
@@ -43,8 +44,13 @@ class RecipeTableViewController: UITableViewController {
     private var ref: DatabaseReference!
     private var databaseHandle:DatabaseHandle?
 
+    var segueRecipe: Recipe?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // segue에서 넘어온 레시피 가져오기
+        // foundRecipe = segueRecipe
 
         var topItemTitle: String = ""
         if isFromMyRecipesView {
@@ -87,7 +93,7 @@ class RecipeTableViewController: UITableViewController {
     }
 
     @IBAction func checkRecipeAction(_ sender: Any) {
-        showRecipe("https://bmsj.tistory.com/1177") // firebase에서 레시피 주소 가져오기
+        showRecipe(dataCenter.foundRecipe!.recipeURL) // firebase에서 레시피 주소 가져오기
     }
 
     // MARK: - Table view data source
@@ -104,7 +110,7 @@ class RecipeTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         // ImageCell
-        case 0: return "달걀말이"   // firebase에서 음식 이름 가져오기
+        case 0: return dataCenter.foundRecipe?.foodName   // 이전에 Firebase에서 가져온 레시피 데이터와 비교해서 매치되는 음식 이름
         case 1:
             if isFromMyRecipesView {
                 return "필요한 재료" // IngredientsCell
@@ -132,7 +138,7 @@ class RecipeTableViewController: UITableViewController {
             return 1
         case 1:
             if isFromMyRecipesView {
-                return 5 // IngredientsCell - Firebase에서 정확한 각 재료 개수 가져오기
+                return dataCenter.foundRecipe!.ingredientsName.count // IngredientsCell - Firebase에서 정확한 각 재료 개수 가져오기
             } else {
                 return 1 // DifficultyCell
             }
@@ -144,8 +150,9 @@ class RecipeTableViewController: UITableViewController {
             }
         // IngredientsCell
         case 3:
-            return 5    // 필요한 재료의 정확한 개수는 firebase에서 해당 레시피에 필요한 재료들을 가져와서 결정한다.
-                        // 일단은 임의로 dummydata의 개수인 5개로 하자.
+            return (dataCenter.foundRecipe?.ingredientsName.count)!
+            // 필요한 재료의 정확한 개수는 firebase에서 해당 레시피에 필요한 재료들을 가져와서 결정한다.
+            // 일단은 임의로 dummydata의 개수인 5개로 하자.
         // RecipeCheckCell
         case 4:
             return 1
@@ -163,9 +170,15 @@ class RecipeTableViewController: UITableViewController {
                 return cell
             }
             // 이것도 firebase에서 가져온 음식 사진으로 대체하기
-            guard let foodImage = UIImage(named: "eggRoll") else {
-                return cell
+            var foodImage:UIImage = UIImage(named: "eggRoll")!
+            if dataCenter.foundRecipe?.foodName == "달걀말이" {
+                foodImage = UIImage(named: "eggRoll")!
+            } else if dataCenter.foundRecipe?.foodName == "매운갈비찜" {
+                foodImage = UIImage(named: "spicyPork")!
+            } else {
+
             }
+
             foodImageCell.foodImageView.image = foodImage
             return foodImageCell
         case 1:
@@ -174,13 +187,11 @@ class RecipeTableViewController: UITableViewController {
                 guard let ingredientsCell = cell as? IngredientsCell else {
                     return cell
                 }
-                // 재료에 대한 정보들은 추후 Firebase에서 가져온다
-                // 일단은 dummydata를 사용
 
-                let ingredients: [String] = ["달걀", "양파", "당근", "쪽파", "소금"]
-                let quantity: [String] = ["5개", "1/4개", "한토막(1cm)", "3줄기", "1/2(티스푼)"]
-                ingredientsCell.ingredientLabel.text = ingredients[indexPath.row]
-                ingredientsCell.quantityLabel.text = quantity[indexPath.row]
+                // 재료에 대한 정보들은 Firebase에서 가져온다
+                ingredientsCell.ingredientLabel.text = dataCenter.foundRecipe?.ingredientsName[indexPath.row]
+                ingredientsCell.quantityLabel.text = dataCenter.foundRecipe?.ingredientsQuantity[indexPath.row]
+
                 return ingredientsCell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "difficultyCell", for: indexPath)
@@ -189,9 +200,8 @@ class RecipeTableViewController: UITableViewController {
                 }
                 // firebase에서 가져온 난이도에 따라 결정하기
                 // firebase에는 난이도가 1, 2, 3, 4, 5 와 같이 String형으로 저장되어 있을 것.
-                let difficulty: String = "3"
                 let difficultyImage: UIImage?
-                switch difficulty {
+                switch dataCenter.foundRecipe?.difficulty {
                 case "1":
                     difficultyImage = UIImage(named: "difficulty1")
                 case "2":
@@ -230,13 +240,10 @@ class RecipeTableViewController: UITableViewController {
             guard let ingredientsCell = cell as? IngredientsCell else {
                 return cell
             }
-            // 재료에 대한 정보들은 추후 Firebase에서 가져온다
-            // 일단은 dummydata를 사용
 
-            let ingredients: [String] = ["달걀", "양파", "당근", "쪽파", "소금"]
-            let quantity: [String] = ["5개", "1/4개", "한토막(1cm)", "3줄기", "1/2(티스푼)"]
-            ingredientsCell.ingredientLabel.text = ingredients[indexPath.row]
-            ingredientsCell.quantityLabel.text = quantity[indexPath.row]
+            ingredientsCell.ingredientLabel.text = dataCenter.foundRecipe?.ingredientsName[indexPath.row]
+            ingredientsCell.quantityLabel.text = dataCenter.foundRecipe?.ingredientsQuantity[indexPath.row]
+
             return ingredientsCell
         case 4:
             let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCheckCell", for: indexPath)

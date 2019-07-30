@@ -115,7 +115,7 @@
                                 <connections>
                                     <outlet property="difficultyImageView" destination="V7o-oS-yaA" id="lf5-qd-pu8"/>
                                     <outlet property="recipeNameLabel" destination="1CW-sr-6ck" id="PIj-2s-Qjy"/>
-                                    <segue destination="Wa4-gV-ofW" kind="show" id="aYl-eT-v5e"/>
+                                    <segue destination="Wa4-gV-ofW" kind="show" identifier="checkMyRecipe" id="aYl-eT-v5e"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -130,10 +130,10 @@
             </objects>
             <point key="canvasLocation" x="976.79999999999995" y="865.81709145427294"/>
         </scene>
-        <!--Vision Object Recognition View Controller-->
+        <!--Food Detection View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="VisionObjectRecognitionViewController" customModule="PaikRecipes" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="FoodDetectionViewController" customModule="PaikRecipes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,42 +141,74 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixt-y1-TtL">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="카메라에 식재료가 잘 보이게 배치해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="af1-I6-9sA">
-                                <rect key="frame" x="44" y="43" width="287" height="21"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0L8-2F-9ha">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.56259328126907349" blue="0.0068243145942687988" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="모든 재료가 인식되었다면 주황색 버튼을 눌러주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LY0-Dj-pG1">
-                                <rect key="frame" x="12" y="72" width="350" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.56259328126907349" blue="0.0068243145942687988" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ux-n8-TL4">
-                                <rect key="frame" x="131" y="595" width="112" height="52"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="cook"/>
-                                <connections>
-                                    <action selector="findRecipeAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ok8-Qb-6jf"/>
-                                    <segue destination="Wa4-gV-ofW" kind="show" id="3qm-Oc-SlK"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="카메라에 식재료가 잘 보이게 배치해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="af1-I6-9sA">
+                                        <rect key="frame" x="49" y="32" width="287" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" red="1" green="0.56259328126907349" blue="0.0068243145942687988" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="재료를 모두 추가하시고 요리 버튼을 눌러주세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LY0-Dj-pG1">
+                                        <rect key="frame" x="32" y="57" width="321" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" red="1" green="0.56259328126907349" blue="0.0068243145942687988" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="biL-qc-4Gl">
+                                        <rect key="frame" x="245" y="600" width="112" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="cook"/>
+                                        <connections>
+                                            <action selector="findRecipe:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zpw-yk-2Oe"/>
+                                            <segue destination="Wa4-gV-ofW" kind="show" id="9Xv-Gt-cxg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HsI-VJ-WqK">
+                                        <rect key="frame" x="20" y="600" width="112" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="addBox"/>
+                                        <connections>
+                                            <action selector="addIngredient:" destination="BYZ-38-t0r" eventType="touchUpInside" id="41q-av-wu2"/>
+                                        </connections>
+                                    </button>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="classification" translatesAutoresizingMaskIntoConstraints="NO" id="7TX-VR-RkH">
+                                        <rect key="frame" x="103" y="497" width="169" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYf-iT-x6r">
+                                        <rect key="frame" x="122" y="522" width="131" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="addAlert" translatesAutoresizingMaskIntoConstraints="NO" id="vZW-dL-bI1">
+                                        <rect key="frame" x="67" y="269" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="animateAddImageView" destination="vZW-dL-bI1" id="J8a-LG-gJ9"/>
+                        <outlet property="classificationLabel" destination="MYf-iT-x6r" id="d3Z-4S-Hsf"/>
                         <outlet property="previewView" destination="ixt-y1-TtL" id="5D3-lJ-BOf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="114"/>
+            <point key="canvasLocation" x="976.79999999999995" y="113.79310344827587"/>
         </scene>
         <!--RecipeView-->
         <scene sceneID="Req-j3-8wo">
@@ -195,7 +227,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eggRoll" translatesAutoresizingMaskIntoConstraints="NO" id="ZUC-RV-beh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="199.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375.00000000000045" height="199.5"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="199.5" id="HaY-Y9-wF9"/>
                                                 <constraint firstAttribute="width" constant="375" id="jse-vm-fKt"/>
@@ -301,7 +333,7 @@
                                             <rect key="frame" x="24" y="12" width="327" height="52"/>
                                             <state key="normal" image="checkRecipe"/>
                                             <connections>
-                                                <action selector="findRecipeAction:" destination="6mF-2u-E07" eventType="touchUpInside" id="8qW-VK-zR4"/>
+                                                <action selector="checkRecipeAction:" destination="Wa4-gV-ofW" eventType="touchUpInside" id="6TV-lJ-ZZn"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -330,7 +362,6 @@
                     <navigationItem key="navigationItem" title="추천 레시피" id="zsW-3v-Cig"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="edc-CP-uKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="6mF-2u-E07" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1767" y="114"/>
         </scene>
@@ -355,7 +386,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="addAlert" width="167.5" height="59"/>
+        <image name="addBox" width="112" height="52"/>
         <image name="checkRecipe" width="327" height="52"/>
+        <image name="classification" width="167.5" height="33"/>
         <image name="cook" width="112" height="52"/>
         <image name="difficulty3" width="174" height="30"/>
         <image name="eggRoll" width="1938" height="1094"/>

@@ -14,15 +14,17 @@ var dataCenter: DataCenter = DataCenter()
 class DataCenter {
     var recipe:[Recipe]
 
-    // 카메라에 보이는 식재료를 담는 Set (중복 제거)
-    var ingredients:Set<String>
-
+    // 나의 레시피
+    var myRecipe:[Recipe]
+    
     // confidence가 어느 정도 넘어야 식재료로 확신한다.
     let standardConfidence: Float
 
+    var foundRecipe:Recipe?
+
     init() {
         self.recipe = []
-        self.ingredients = []
+        self.myRecipe = []
         self.standardConfidence = 0.8
     }
 }
