@@ -1,16 +1,16 @@
 # ios-SanchezPaikRecipes
 카메라에 비친 음식 재료들을 가지고 "백종원 레시피"를 추천해주는 iOS앱.
 
-<img width="400" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61716520-4e325100-ad9a-11e9-9a09-fe78f5bf7fae.png">
+<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61716520-4e325100-ad9a-11e9-9a09-fe78f5bf7fae.png">
 
 그를 아이패드에 손수 그린 모습이다..
 ~~그는 도덕책..~~
 
 ---
 
-## 0. 첫인상
+## 0. 사용 방법
 
-<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61866659-865ba000-af10-11e9-863a-f4b2f0d6548c.PNG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61948173-10c00480-afe2-11e9-9611-e346bcc5fe95.PNG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="200" alt="white-ver" src="https://user-images.githubusercontent.com/38272356/61948175-10c00480-afe2-11e9-9eb4-ddcfaeff6590.PNG">
+<img width="1035" alt="Screen Shot 2021-08-04 at 9 19 11 PM" src="https://user-images.githubusercontent.com/38272356/128179549-9f09affe-240b-4de6-8ae7-e1fa3abe3387.png">
 
 ---
 
@@ -27,7 +27,7 @@
 ---
 
 ## 3. 동기
-* 재밌을 것 같아서.. ~~할 줄 아는 게 없어서~~
+* 재밌을 것 같아서..
 * iOS와 ML의 오작교가 되고 싶었다.
 * Naver Tech Concert - Mobile:iOS를 다녀오고 나서 급 해보고 싶어짐..
 
@@ -35,6 +35,7 @@
 
 ## 4. 기술
 * iOS App Programming (Swift)
-* Machine Learning - Object Detection (Turi Create) ~~Pytorch R.I.P.~~
-
+* Train using Create ML - Vision FeaturePrint.Scene (Transfer Learning)
+* .mlmodel -> Core ML
+* Firebase Realtime Database
 ---
